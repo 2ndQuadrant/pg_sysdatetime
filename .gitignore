@@ -29,3 +29,12 @@
 *.hex
 
 .*.sw?
+
+x64/
+x86/
+Release/
+Debug/
+pg_sysdatetime.opensdf
+pg_sysdatetime.sdf
+pg_sysdatetime.v11.suo
+pg_sysdatetime.vcxproj.filters
