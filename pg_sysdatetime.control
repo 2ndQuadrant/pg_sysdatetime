@@ -1,0 +1,4 @@
+# pg_sysdatetime extension
+comment = 'High precision timestamp capture for Windows'
+default_version = '1.0'
+relocatable = true
