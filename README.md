@@ -40,14 +40,16 @@ Compiling it is relatively trivial:
 * Select "Configuration: All Configurations"
 * Selct "Platform: x64" if you're building for 64-bit PostgreSQL, or "Platform: x86" if building for 32-bit PostgreSQL.
 * Under C/C++ -> General, edit "Additional Include Directories" to point to your PostgreSQL install. Make sure to edit all four include-dir entries.
-* Under Linker -> General, edit "Additional Library Directories" to point to your PostgreSQL install. If compiling for a 32-bit PostgreSQL on 64-bit Windows make sure to use the one in `%PROGRAMFILES(86)%`. This *must* be the same PostgreSQL install pointed to for include directories.
+* Under Linker -> General, edit "Additional Library Directories" to point to your PostgreSQL install. If compiling for a 32-bit PostgreSQL on 64-bit Windows make sure to use the one in `Program Files (x86)`. This *must* be the same PostgreSQL install pointed to for include directories.
 * Save the changes
 * In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the same platform (x86 or x64) that you configured the solution properties for.
 * From the Build menu, choose Rebuild Solution
 
-Now copy `pg_sysdatetime--1.0.sql` and `pg_sysdatetime.control` to the
-`share\extension` directory of the PostgreSQL install you compiled the
-extension for.
+If you get an error about `libintl.h` being missing [then you've run into a packaging error in the 64-bit installer for PostgreSQL](http://blog.2ndquadrant.com/compiling-postgresql-extensions-visual-studio-windows/) and you will need to [copy `libintl.h` from here](https://gist.githubusercontent.com/ringerc/d57978ca0d3a3a13b5d7/raw/b7a695dcb451d2ac1dc4eecfbfa3198b8f29dff3/gistfile1.txt) into `include\libintl.h` in your PostgreSQL install then try the compile again.
+
+After the compile completes, copy `pg_sysdatetime--1.0.sql` and
+`pg_sysdatetime.control` to the `share\extension` directory of the PostgreSQL
+install you compiled the extension for.
 
 Copy `x64\Release\pg_sysdatetime.dll` (for x64 builds) or
 `x86\Release\pg_sysdatetime.dll` (for x86 builds) to your PostgreSQL install's
