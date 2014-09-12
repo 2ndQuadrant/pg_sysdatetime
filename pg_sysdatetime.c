@@ -4,12 +4,16 @@
 #include "utils/geo_decls.h"
 #include "utils/datetime.h"
 
+#if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#endif
 
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
 #endif
+
+#if defined(WIN32)
 
 /* from src/port/gettimeofday.c */
 /* FILETIME of Jan 1 1970 00:00:00. */
@@ -34,7 +38,7 @@ getetimeofday_highres(struct timeval * tp, struct timezone * tzp)
 }
 
 /* Replaces GetCurrentTimestamp in src/backend/utils/adt/timestamp.c */
-TimestampTz
+static TimestampTz
 GetCurrentTimestampHighres(void)
 {
 	TimestampTz result;
@@ -51,6 +55,16 @@ GetCurrentTimestampHighres(void)
 #endif
 	return result;
 }
+
+#else
+/* on non-Windows, simply use the existing GetCurrentTimestamp */
+
+inline static TimestampTz
+GetCurrentTimestampHighres(void)
+{
+	return GetCurrentTimestamp();
+}
+#endif
 
 PG_FUNCTION_INFO_V1(pg_sysutcdatetime);
 
