@@ -11,7 +11,7 @@ COMMENT ON FUNCTION sysutcdatetime()
 IS 'Return high precision timestamp for current UTC time as timestamp';
 
 CREATE OR REPLACE FUNCTION sysdatetimeoffset()
-RETURNS TIMESTAMP WITHOUT TIME ZONE
+RETURNS TIMESTAMP WITH TIME ZONE
 LANGUAGE c
 AS 'pg_sysdatetime','pg_sysdatetimeoffset'
 STABLE;
