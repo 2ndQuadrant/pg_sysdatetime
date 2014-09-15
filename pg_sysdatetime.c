@@ -87,5 +87,7 @@ PG_FUNCTION_INFO_V1(pg_sysdatetime);
 PGDLLEXPORT Datum
 pg_sysdatetime(PG_FUNCTION_ARGS)
 {
-	PG_RETURN_TIMESTAMP(GetCurrentTimestampHighres());
+	Timestamp ts = GetCurrentTimestampHighres();
+
+	return DirectFunctionCall1(timestamptz_timestamp, TimestampGetDatum(ts));
 }
