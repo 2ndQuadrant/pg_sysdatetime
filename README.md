@@ -36,13 +36,10 @@ Compiling it is relatively trivial:
 
 * Install Visual Studio Express 2012 or a compatible product
 * Open `pg_sysdatetime.sln`
-* Open the Properties for the `pg_sysdatetime` project under the Solution Explorer
-* Select "Configuration: All Configurations"
-* Selct "Platform: x64" if you're building for 64-bit PostgreSQL, or "Platform: x86" if building for 32-bit PostgreSQL.
-* Under C/C++ -> General, edit "Additional Include Directories" to point to your PostgreSQL install. Make sure to edit all four include-dir entries.
-* Under Linker -> General, edit "Additional Library Directories" to point to your PostgreSQL install. If compiling for a 32-bit PostgreSQL on 64-bit Windows make sure to use the one in `Program Files (x86)`. This *must* be the same PostgreSQL install pointed to for include directories.
+* Open the Property Manager, from View -> Other Windows
+* Edit the "postgresql" entry and change PGBASEDIR32 and PGBASEDIR64 to point to the 32-bit and 64-bit PostgreSQL installs you want to build against. If you're only building one, just ignore the other.
 * Save the changes
-* In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the same platform (x86 or x64) that you configured the solution properties for.
+* In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the platform you want to compile for (32-bit or 64-bit).
 * From the Build menu, choose Rebuild Solution
 
 If you get an error about `libintl.h` being missing [then you've run into a packaging error in the 64-bit installer for PostgreSQL](http://blog.2ndquadrant.com/compiling-postgresql-extensions-visual-studio-windows/) and you will need to [copy `libintl.h` from here](https://gist.githubusercontent.com/ringerc/d57978ca0d3a3a13b5d7/raw/b7a695dcb451d2ac1dc4eecfbfa3198b8f29dff3/gistfile1.txt) into `include\libintl.h` in your PostgreSQL install then try the compile again.
