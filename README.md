@@ -35,11 +35,20 @@ To install this extension you must first compile it. Binaries are not provided.
 Compiling it is relatively trivial:
 
 * Install Visual Studio Express 2012 or a compatible product
-* Open `pg_sysdatetime.sln`
-* Open the Property Manager, from View -> Other Windows
-* Edit the "postgresql" entry and change PGBASEDIR32 and PGBASEDIR64 to point to the 32-bit and 64-bit PostgreSQL installs you want to build against. If you're only building one, just ignore the other.
-* Save the changes
+
+* Open `pg_sysdatetime.sln` in Visual Studio
+
+* Change the paths to PostgreSQL, using Visual Studio's properties editor, or a simple text editor. If you only have one installed, just ignore the one you aren't interested in. The defaults will be fine except for the version number if you're using a 32-bit Visual Studio and installed PostgreSQL in the default location. To edit:
+** With the properties editor
+*** Open the Property Manager, from View -> Other Windows
+*** Edit the "pg_sysdatetime" properties entry from any of the configuration/platform sections. It doesn't matter which, they're all the same file.
+*** Change the values of `PGBASEDIR_x86` and `PGBASEDIR_x64` to point to the 32-bit and 64-bit PostgreSQL installs you want to build against.
+*** Save the changes. When you save the changes they'll be applied to all sections.
+** With a text editor
+*** Open `pg_sysdatetime.props` and edit the values of the `<PGBASEDIR_x64>` and `<PGBASEDIR_x86>` elements to point to your Pg install(s)
+
 * In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the platform you want to compile for (32-bit or 64-bit).
+
 * From the Build menu, choose Rebuild Solution
 
 If you get an error about `libintl.h` being missing [then you've run into a packaging error in the 64-bit installer for PostgreSQL](http://blog.2ndquadrant.com/compiling-postgresql-extensions-visual-studio-windows/) and you will need to [copy `libintl.h` from here](https://gist.githubusercontent.com/ringerc/d57978ca0d3a3a13b5d7/raw/b7a695dcb451d2ac1dc4eecfbfa3198b8f29dff3/gistfile1.txt) into `include\libintl.h` in your PostgreSQL install then try the compile again.
