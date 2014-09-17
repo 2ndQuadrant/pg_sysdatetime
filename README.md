@@ -36,16 +36,16 @@ Compiling it is relatively trivial:
 * Open `pg_sysdatetime.sln` in Visual Studio
 
 * Change the paths to PostgreSQL, using Visual Studio's properties editor, or a simple text editor. If you only have one installed, just ignore the one you aren't interested in. The defaults will be fine except for the version number if you're using a 32-bit Visual Studio and installed PostgreSQL in the default location. To edit:
-** With the properties editor
-*** Open the Property Manager, from View -> Other Windows
-*** Edit the "pg_sysdatetime" properties entry from any of the configuration/platform sections. It doesn't matter which, they're all the same file.
-*** Change `PGMAJORVERSION` to your version, e.g. `9.3`.
-*** If necessary, also change the values of `PGBASEDIR_x86` and `PGBASEDIR_x64` to point to the 32-bit and 64-bit PostgreSQL installs you want to build against.
-*** Save the changes. When you save the changes they'll be applied to all sections.
-** With a text editor
-*** Open `pg_sysdatetime.props` in a text editor
-*** Change `<PGMAJORVERSION>` to your major version, e.g. `9.3`
-*** edit the values of the `<PGBASEDIR_x64>` and `<PGBASEDIR_x86>` elements to point to your Pg install(s), if needed
+  * With the properties editor
+    * Open the Property Manager, from View -> Other Windows
+    * Edit the `pg_sysdatetime` properties entry from any of the configuration/platform sections. It doesn't matter which, they're all the same file.
+    * Change `PGMAJORVERSION` to your version, e.g. `9.3`.
+    * If necessary, also change the values of `PGBASEDIR_x86` and `PGBASEDIR_x64` to point to the 32-bit and 64-bit PostgreSQL installs you want to build against.
+    * Save the changes. When you save the changes they'll be applied to all sections.
+  * With a text editor
+    * Open `pg_sysdatetime.props` in a text editor
+    * Change `<PGMAJORVERSION>` to your major version, e.g. `9.3`
+    * edit the values of the `<PGBASEDIR_x64>` and `<PGBASEDIR_x86>` elements to point to your Pg install(s), if needed
 
 * In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the platform you want to compile for (32-bit or 64-bit).
 
@@ -124,6 +124,7 @@ References
 
 * GetSystemTimeAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724397(v=vs.85).aspx
 * GetSystemTimePreciseAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/hh706895(v=vs.85).aspx
+* timeBeginPeriod: http://msdn.microsoft.com/en-us/library/windows/desktop/dd757624%28v=vs.85%29.aspx
 * clockres.exe: http://technet.microsoft.com/en-us/sysinternals/bb897568.aspx
 * GetSystemTimeAdjustment: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724394(v=vs.85).aspx
 * Windows Timer Project: http://www.windowstimestamp.com/description
