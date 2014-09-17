@@ -5,14 +5,23 @@
     <DistDir>pg_sysdatetime_pg$(PGMAJORVERSION)-$(Configuration)-$(Platform)</DistDir>
   </PropertyGroup>
   <ItemGroup>
-    <StaticSourceFiles Include="pg_sysdatetime--1.0.sql;pg_sysdatetime.control;README.md;LICENSE"/>
+    <DocFiles Include="README.md;LICENSE"/>
+    <ExtensionSourceFiles Include="pg_sysdatetime--1.0.sql;pg_sysdatetime.control"/>
     <ExtensionDll Include="$(TargetDir)\pg_sysdatetime.dll"/>
   </ItemGroup>
   <Target Name="CopyOutputs">
     <Message Text="Copying build product to $(DistDir)" Importance="high" />
     <Copy
-      SourceFiles="@(StaticSourceFiles);@(ExtensionDll)"
+      SourceFiles="@(DocFiles)"
       DestinationFolder="$(DistDir)"
+      />
+    <Copy
+      SourceFiles="@(ExtensionDll)"
+      DestinationFolder="$(DistDir)\lib"
+      />
+    <Copy
+      SourceFiles="@(ExtensionSourceFiles)"
+      DestinationFolder="$(DistDir)\share\extension"
       />
   </Target>
   <Target Name="DeleteOutputs">
