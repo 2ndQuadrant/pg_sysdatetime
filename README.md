@@ -4,34 +4,31 @@
 PostgreSQL SYSDATETIME() functions with support for higher precision timer
 capture on Windows
 
-This module may be compiled using Visual Studio on Windows, or using PGXS with
-MinGW.
+This module may be compiled using Visual Studio on Windows. MinGW may also work
+but is untested. Visual Studio 2012 was used in testing.
 
 The timestamps returned are those provided by GetSystemTimeAsFileTime, which
-can return up to 100ns precision, but may return much coarser timestamps
-depending on hardware and operating system/version. Use `clockres.exe` from
-SysInternals to check your system's clock resolution (see link below).
+can return up to 100ns precision, but in practice returns 1ms (10000ns) precision.
 
 This functionality is equivalent to changing `src/port/gettimeofday.c` to use
 `GetSystemTimeAsFileTime` directly, rather than reading `GetSystemTime` and
 converting to `FileTime` with `SystemTimeToFileTime`, but doesn't require a
 core server patch.
 
-Future work could permit the use of GetSystemTimePreciseAsFiletime where 
-running on Windows Server 2012 or Windows 8.
+Quick install from binaries
+---
 
-See:
-
-* GetSystemTimeAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724397(v=vs.85).aspx
-* GetSystemTimePreciseAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/hh706895(v=vs.85).aspx
-* clockres.exe: http://technet.microsoft.com/en-us/sysinternals/bb897568.aspx
-* GetSystemTimeAdjustment: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724394(v=vs.85).aspx
-* Windows Timer Project: http://www.windowstimestamp.com/description
+If you downloaded a binary release zip  of this extension for your PostgreSQL major version and
+platform (32-bit or 64-bit Windows), simply copy the contents of the "lib" folder to your
+PostgreSQL install's "lib" folder, and do the same for the "share/extension" folder.
+Then follow the instructions for "Usage (all platforms) below".
 
 Compilation and installation (Windows)
 ---
 
-To install this extension you must first compile it. Binaries are not provided.
+To install this extension you must first compile it. Binaries are not published on the github page,
+so you'll probably have to do this.
+
 Compiling it is relatively trivial:
 
 * Install Visual Studio Express 2012 or a compatible product
@@ -90,3 +87,44 @@ Three functions are provided. All return a timestamp with the highest currently 
 * `sysutcdatetime` - returns a timestamp without time zone in UTC
 * `sysdatetime` - returns a timestamp without time zone in local time as defined by `TimeZone`
 * `sysdatetimeoffset` - returns a timestamp with time zone for the current UTC timestamp
+
+System timer frequency adjustment
+---
+
+Because GetSystemTimeAsFileTime may return much coarser timestamps
+depending on hardware and operating system/version, the extension can use Windows
+Multimedia features to request a higher timer resolution the first time it is
+run. Just add:
+
+    pg_sysdatetime.adjust_timer_resolution = on
+	
+to your `postgresql.conf`. 
+
+The setting change can be applied with a `pg_ctl reload` and can be set per-session
+by the superuser.
+
+Querying system time resolution
+---
+
+You can use use `clockres.exe` from SysInternals to check your system's 
+clock resolution (see link below), and can use:
+
+    powercfg -energy -duration 5
+	
+to produce a report showing which applications have timer resolution requests active.
+
+Future work
+---
+
+Future work could permit the use of GetSystemTimePreciseAsFiletime where 
+running on Windows Server 2012 or Windows 8.
+
+References
+---
+
+* GetSystemTimeAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724397(v=vs.85).aspx
+* GetSystemTimePreciseAsFileTime: http://msdn.microsoft.com/en-us/library/windows/desktop/hh706895(v=vs.85).aspx
+* clockres.exe: http://technet.microsoft.com/en-us/sysinternals/bb897568.aspx
+* GetSystemTimeAdjustment: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724394(v=vs.85).aspx
+* Windows Timer Project: http://www.windowstimestamp.com/description
+
