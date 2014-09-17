@@ -156,8 +156,16 @@
   <ItemGroup>
     <ClCompile Include="pg_sysdatetime.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="pg_sysdatetime--1.0.sql" />
+    <None Include="pg_sysdatetime.control" />
+    <None Include="pg_sysdatetime.props" />
+    <None Include="pg_sysdatetime.targets" />
+    <None Include="pg_sysdatetime_x64.props" />
+    <None Include="pg_sysdatetime_x86.props" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <Import Project="pg_sysdatetime.targets"/>
+  <Import Project="pg_sysdatetime.targets" />
 </Project>
