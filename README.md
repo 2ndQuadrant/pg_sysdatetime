@@ -42,10 +42,13 @@ Compiling it is relatively trivial:
 ** With the properties editor
 *** Open the Property Manager, from View -> Other Windows
 *** Edit the "pg_sysdatetime" properties entry from any of the configuration/platform sections. It doesn't matter which, they're all the same file.
-*** Change the values of `PGBASEDIR_x86` and `PGBASEDIR_x64` to point to the 32-bit and 64-bit PostgreSQL installs you want to build against.
+*** Change `PGMAJORVERSION` to your version, e.g. `9.3`.
+*** If necessary, also change the values of `PGBASEDIR_x86` and `PGBASEDIR_x64` to point to the 32-bit and 64-bit PostgreSQL installs you want to build against.
 *** Save the changes. When you save the changes they'll be applied to all sections.
 ** With a text editor
-*** Open `pg_sysdatetime.props` and edit the values of the `<PGBASEDIR_x64>` and `<PGBASEDIR_x86>` elements to point to your Pg install(s)
+*** Open `pg_sysdatetime.props` in a text editor
+*** Change `<PGMAJORVERSION>` to your major version, e.g. `9.3`
+*** edit the values of the `<PGBASEDIR_x64>` and `<PGBASEDIR_x86>` elements to point to your Pg install(s), if needed
 
 * In the toolbar at the top of the window, choose "Release" from the "Solution Configurations" pulldown, and choose the platform you want to compile for (32-bit or 64-bit).
 

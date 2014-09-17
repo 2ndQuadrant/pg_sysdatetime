@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- MSBuild extension targets for Visual Studio build -->
+  <PropertyGroup>
+    <DistDir>pg_sysdatetime_pg$(PGMAJORVERSION)-$(Configuration)-$(Platform)</DistDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <StaticSourceFiles Include="pg_sysdatetime--1.0.sql;pg_sysdatetime.control;README.md;LICENSE"/>
+    <ExtensionDll Include="$(TargetDir)\pg_sysdatetime.dll"/>
+  </ItemGroup>
+  <Target Name="CopyOutputs">
+    <Message Text="Copying build product to $(DistDir)" Importance="high" />
+    <Copy
+      SourceFiles="@(StaticSourceFiles);@(ExtensionDll)"
+      DestinationFolder="$(DistDir)"
+      />
+  </Target>
+  <Target Name="DeleteOutputs">
+    <Message Text="Deleting $(DistDir)" Importance="normal" />
+    <Delete Files="$(DistDir)"/>
+  </Target>
+  <!-- Attach to Visual Studio build hooks -->
+  <Target Name="BeforeClean">
+    <CallTarget Targets="DeleteOutputs"/>
+  </Target>
+  <Target Name="AfterBuild">
+    <CallTarget Targets="CopyOutputs"/>
+  </Target>
+</Project>
