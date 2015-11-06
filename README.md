@@ -1,6 +1,10 @@
 `pg_sysdatetime`
 ==============
 
+High precision SYSDATETIME() functions for PostgreSQL on Windows
+
+Useful for PostgreSQL 9.4 or earlier. Functionality now included in core PostgreSQL 9.5
+
 ---
 
 **This extension is not particularly useful on PostgreSQL 9.5 - an improved version has been integrated into the core code.** See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
@@ -12,9 +16,6 @@ This extension does *not* use `GetSystemTimePreciseAsFileTime` where available
 with my patch, so it's better than this extension.
 
 ---
-
-PostgreSQL SYSDATETIME() functions with support for higher precision timer
-capture on Windows
 
 This module may be compiled using Visual Studio on Windows. MinGW may also work
 but is untested. Visual Studio 2012 was used in testing.
