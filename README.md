@@ -1,15 +1,13 @@
 `pg_sysdatetime`
 ==============
 
-High precision SYSDATETIME() functions for PostgreSQL on Windows
+High precision SYSDATETIME() functions for PostgreSQL on Windows, with MS-SQL-Server naming
 
 Useful for PostgreSQL 9.4 or earlier. Normally PostgreSQL will return at best 1 millisecond time precision on windows. Usually 15ms. This module lets you get greater precision.
 
 Note, however, that until Windows Server 2012 and Windows 8 the timer granularity was limited to 1ms. So you'll get timestamps with more digits, but no greater accuracy. You'll just get a more precise timestamp that stays the same for 1ms, then changes again. To get that extra detail needs use of the `GetSystemTimePreciseAsFileTime` API where available (Win8 / Win2k12) for sub-microsecond resolution.  This extension does *not* do so.
 
-PostgreSQL 9.5 now natively uses `GetSystemTimePreciseAsFileTime` where available, and always returns high precision timestamps, so you don't need this extension on 9.5. See See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
-
-This extension's functionality is now included in core PostgreSQL 9.5.  You can just declare `LANGUAGE SQL` wrappers for `sysdatetime` etc if you want the SQL server interfaces. There's no longer any need for C-level code changes.
+PostgreSQL 9.5 now natively uses `GetSystemTimePreciseAsFileTime` where available, and always returns high precision timestamps, so you don't need this extension on 9.5. See See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576). On 9.5 you can just declare `LANGUAGE SQL` wrappers for `sysdatetime` etc if you want the MS-SQL-server interfaces. There's no longer any need for C-level code changes.
 
 This module may be compiled using Visual Studio on Windows. MinGW may also work
 but is untested. Visual Studio 2012 was used in testing.
