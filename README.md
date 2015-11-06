@@ -3,24 +3,16 @@
 
 High precision SYSDATETIME() functions for PostgreSQL on Windows
 
-Useful for PostgreSQL 9.4 or earlier.
+Useful for PostgreSQL 9.4 or earlier. Normally PostgreSQL will return at best 1 millisecond time precision on windows. Usually 15ms. This module lets you get greater precision.
 
-Functionality now included in core PostgreSQL 9.5
-See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
-You can just declare `LANGUAGE SQL` wrappers for `sysdatetime` etc if you want the SQL server interfaces. There's no longer any need for C-level code changes.
-This extension does *not* use `GetSystemTimePreciseAsFileTime` where available
-(Win8 / Win2k12) for sub-microsecond resolution. PostgreSQL 9.5 does so natively now.
+Note, however, that until Windows Server 2012 and Windows 8 the timer granularity was limited to 1ms. So you'll get timestamps with more digits, but no greater accuracy. You'll just get a more precise timestamp that stays the same for 1ms, then changes again. To get that extra detail needs use of the `GetSystemTimePreciseAsFileTime` API where available (Win8 / Win2k12) for sub-microsecond resolution.  This extension does *not* do so.
+
+PostgreSQL 9.5 now natively uses `GetSystemTimePreciseAsFileTime` where available, and always returns high precision timestamps, so you don't need this extension on 9.5. See See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
+
+This extension's functionality is now included in core PostgreSQL 9.5.  You can just declare `LANGUAGE SQL` wrappers for `sysdatetime` etc if you want the SQL server interfaces. There's no longer any need for C-level code changes.
 
 This module may be compiled using Visual Studio on Windows. MinGW may also work
 but is untested. Visual Studio 2012 was used in testing.
-
-The timestamps returned are those provided by GetSystemTimeAsFileTime, which
-can return up to 100ns precision, but in practice returns 1ms (10000ns) precision.
-
-This functionality is equivalent to changing `src/port/gettimeofday.c` to use
-`GetSystemTimeAsFileTime` directly, rather than reading `GetSystemTime` and
-converting to `FileTime` with `SystemTimeToFileTime`, but doesn't require a
-core server patch.
 
 Quick install from binaries
 ---
@@ -58,7 +50,7 @@ Compiling it is relatively trivial:
 
 * From the Build menu, choose Rebuild Solution
 
-If you get an error about `libintl.h` being missing [then you've run into a packaging error in the 64-bit installer for PostgreSQL](http://blog.2ndquadrant.com/compiling-postgresql-extensions-visual-studio-windows/) and you will need to [copy `libintl.h` from here](https://gist.githubusercontent.com/ringerc/d57978ca0d3a3a13b5d7/raw/b7a695dcb451d2ac1dc4eecfbfa3198b8f29dff3/gistfile1.txt) into `include\libintl.h` in your PostgreSQL install then try the compile again.
+If you get an error about `libintl.h` beSing missing [then you've run into a packaging error in the 64-bit installer for PostgreSQL](http://blog.2ndquadrant.com/compiling-postgresql-extensions-visual-studio-windows/) and you will need to [copy `libintl.h` from here](https://gist.githubusercontent.com/ringerc/d57978ca0d3a3a13b5d7/raw/b7a695dcb451d2ac1dc4eecfbfa3198b8f29dff3/gistfile1.txt) into `include\libintl.h` in your PostgreSQL install then try the compile again.
 
 After the compile completes, copy `pg_sysdatetime--1.0.sql` and
 `pg_sysdatetime.control` to the `share\extension` directory of the PostgreSQL
