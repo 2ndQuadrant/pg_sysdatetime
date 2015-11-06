@@ -3,19 +3,13 @@
 
 High precision SYSDATETIME() functions for PostgreSQL on Windows
 
-Useful for PostgreSQL 9.4 or earlier. Functionality now included in core PostgreSQL 9.5
+Useful for PostgreSQL 9.4 or earlier.
 
----
-
-**This extension is not particularly useful on PostgreSQL 9.5 - an improved version has been integrated into the core code.** See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
-
+Functionality now included in core PostgreSQL 9.5
+See [`GetSystemTimePreciseAsFileTime` support for PostgreSQL 9.5](https://commitfest.postgresql.org/action/patch_view?id=1576).
 You can just declare `LANGUAGE SQL` wrappers for `sysdatetime` etc if you want the SQL server interfaces. There's no longer any need for C-level code changes.
-
 This extension does *not* use `GetSystemTimePreciseAsFileTime` where available
-(Win8 / Win2k12) for sub-microsecond resolution. PostgreSQL 9.5 does so natively
-with my patch, so it's better than this extension.
-
----
+(Win8 / Win2k12) for sub-microsecond resolution. PostgreSQL 9.5 does so natively now.
 
 This module may be compiled using Visual Studio on Windows. MinGW may also work
 but is untested. Visual Studio 2012 was used in testing.
